@@ -12,7 +12,7 @@ class Comport{
         Comport( std::string& number_por);
 
         ~Comport();
- void  write_msg(char* ms);
+ void  write_msg(uint8_t msg);
  void read_msg();
 
 const char* buffer;
@@ -21,12 +21,10 @@ DCB dcbSerialParams;
 COMMTIMEOUTS timeouts;
 HANDLE hComm;
 bool   Status;
-char  TempChar;//прием данных                        // Temperory Character
-char  SerialBuffer[256]; //вывыод данных
+char  TempChar;//РїСЂРёРµРј РґР°РЅРЅС‹С…                        // Temperory Character
+char  SerialBuffer[256]; //РІС‹РІС‹РѕРґ РґР°РЅРЅС‹С…
 DWORD NoBytesRead;
 DWORD dwEventMask;
 int i = 0;
 
    };
-
-

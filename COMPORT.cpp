@@ -8,7 +8,7 @@ using namespace std;
 
 Comport::Comport(string& number_port ){
 
-const char* buffer=number_port.c_str();//имя порта
+const char* buffer=number_port.c_str();//РёРјСЏ РїРѕСЂС‚Р°
 	Comport::hComm = CreateFile( buffer,                       // Name of the Port to be Opened
 							GENERIC_READ | GENERIC_WRITE,      // Read/Write Access
 							0,                                 // No Sharing, ports cant be shared
@@ -63,6 +63,7 @@ const char* buffer=number_port.c_str();//имя порта
 			printf("\n\n   Setting Serial Port Timeouts Successfull");
 			cout<<"\n";
 
+
        }
 Comport:: ~Comport()
 {
@@ -71,37 +72,38 @@ Comport:: ~Comport()
 }
 
 
-void  Comport::write_msg(char* msg){
+void  Comport::write_msg(uint8_t msg){
 
 
 
        // lpBuffer should be  char or byte array, otherwise write wil fail
 
-        if(msg=="1000")
+        if(sizeof(msg)==0)
            {
 
 		CloseHandle(Comport::hComm);//Closing the Serial Port
 		printf("\n ==========================================\n");
 
 
-		}
-        const char* buf=msg;
+		   }
 
-		DWORD   dNoOFBytestoWrite;              // No of bytes to write into the port
+        char m[]={(char) msg};
+		DWORD   dNoOFBytestoWrite=sizeof(m);            // No of bytes to write into the port
 		DWORD  dNoOfBytesWritten = 0;          // No of bytes written to the port
 
-		dNoOFBytestoWrite = sizeof(buf); // Calculating the no of bytes to write into the port
+		//dNoOFBytestoWrite = sizeof(buf); // Calculating the no of bytes to write into the port
 
 	 Status = WriteFile(hComm,               // Handle to the Serialport
-						   buf,            // Data to be written to the port
+						  m,            // Data to be written to the port
 						   dNoOFBytestoWrite,   // No of bytes to write into the port
 						   &dNoOfBytesWritten,  // No of bytes written to the port
 						   NULL);
 
 		if (Status == TRUE)
 		{
-		    printf("\n\n    %s - Written to %s", buf, buf);
+		    printf("\n\n    %s - Written to %s", m, m);
 			cout<<"\n";
+			Sleep(500);
 		}
 
 		else
@@ -117,22 +119,17 @@ void Comport::read_msg()
 
 
       DWORD iSize;
-      char sReceivedChar[256];
+      char sReceivedChar;   //[256];
       bool flag=true;
-      while(true)
+      while(flag)
       {
-            ReadFile(Comport::hComm, &sReceivedChar, sizeof(sReceivedChar), &iSize, 0);  // получаем 1 байт
-            if (iSize > 0)   // если что-то принято, выводим
-                cout << sReceivedChar;
-                flag=false;
+            ReadFile(Comport::hComm, &sReceivedChar, sizeof(sReceivedChar), &iSize, 0);  // РїРѕР»СѓС‡Р°РµРј 1 Р±Р°Р№С‚
+            if (iSize > 0)   // РµСЃР»Рё С‡С‚Рѕ-С‚Рѕ РїСЂРёРЅСЏС‚Рѕ, РІС‹РІРѕРґРёРј
+
+               // flag=false;
+                cout<< sReceivedChar;
 
       }
 
 
 }
-
-
-
-
-
-

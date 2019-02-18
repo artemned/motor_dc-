@@ -10,9 +10,15 @@ class motor:public abstract_motors,public Comport
         Off();
     }
     void Off()
-    {     char m[]={0x00};
+    {     uint8_t m={0x00};
          write_msg(m);
+
     }
+    void Read()
+    {
+        read_msg();
+    }
+
     virtual void Forward() =  0;
     virtual void Reverse() =  0;
     virtual void Brake() = 0;
@@ -28,32 +34,34 @@ class Dc_motors:public motor
        {
             int j;
             for(j = 0; j < get_speed(); j++)
-            { char ms[]={0x09};
+            { uint8_t ms={0x09};
                write_msg( ms);
+
             }
-            for( ; j < 256; j++)
-            { char sm[]={0x00};
-               write_msg(sm);
-            }
+           // for( ; j < 256; j++)
+           // { uint8_t sm={0x00};
+             //  write_msg(sm);
+           // }
        }
         void Reverse()
         {
             int j;
             for(j = 0; j < get_speed(); j++)
              {
-               char ms[]={0x06};
+               uint8_t ms={0x06};
                write_msg (ms);
              }
             for( ; j < 256; j++)
             {
-             char sm[]={0x00};
+             uint8_t sm={0x00};
              write_msg(sm);
             }
 
         }
         void Brake()
-        {   char ms[]={0x0C};
+        {   uint8_t ms={0x0C};
               write_msg(ms);
+
         }
 };
 
@@ -65,15 +73,17 @@ int main()
 {
 
 
-    Dc_motors dc{"COM3"};
-    dc.set_speed(3);
-    while(true)
-    {
-        dc.Off();
-    }
-   // dc.Forward();
-  //  dc.Brake();
-   // dc.Reverse();
+    Dc_motors dc{"COM4"};
+    dc.set_speed(2);
+while(true){
+   dc.Forward();
+}
+    //dc.Read();
+
+
+  // dc.Brake();
+
+//dc.Reverse();
 
 
  // cout<< dc.get_speed()<<endl;
