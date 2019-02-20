@@ -17,12 +17,35 @@ class abstract_motors
         if(speed<=0)Speed=0;
         if(speed>=255)Speed=255;
     }
-    virtual void Off() = 0;//отключает мотор
-    virtual void Forward() = 0;//движение вперед
-    virtual void Reverse() = 0;//движение назад
-    virtual void Brake() = 0;//остановка мотора
-
+    virtual void Off() = 0;//РѕС‚РєР»СЋС‡Р°РµС‚ РјРѕС‚РѕСЂ
+    virtual void Forward() = 0;//РґРІРёР¶РµРЅРёРµ РІРїРµСЂРµРґ
+    virtual void Reverse() = 0;//РґРІРёР¶РµРЅРёРµ РЅР°Р·Р°Рґ
+    virtual void Brake() = 0;//РѕСЃС‚Р°РЅРѕРІРєР° РјРѕС‚РѕСЂР°
+    virtual ~abstract_motors(){}
 
 private:
-    int Speed;//скорость
+    int Speed;//СЃРєРѕСЂРѕСЃС‚СЊ
+};
+class motor:public abstract_motors,public Comport
+{
+    public:
+    motor(std::string number_port):Comport(number_port)
+    {
+        Off();
+    }
+    void Off()
+    {     uint8_t m={0x00};
+         write_msg(m);
+
+    }
+    void Read()
+    {
+        read_msg();
+    }
+
+    virtual void Forward() =  0;
+    virtual void Reverse() =  0;
+    virtual void Brake() = 0;
+
+
 };
