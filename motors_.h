@@ -46,6 +46,6 @@ class motor:public abstract_motors,public Comport
     virtual void Forward() =  0;
     virtual void Reverse() =  0;
     virtual void Brake() = 0;
-
+    virtual void ~motor(){}
 
 };

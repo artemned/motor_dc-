@@ -11,7 +11,7 @@ class Comport{
  public:
         Comport( std::string& number_por);
 
-        ~Comport();
+      virtual  ~Comport() {};
  void  write_msg(uint8_t msg);
  void read_msg();
 

@@ -65,7 +65,7 @@ const char* buffer=number_port.c_str();//имя порта
 
 
        }
-Comport:: ~Comport()
+Comport:: ~Comport() 
 {
     CloseHandle(Comport::hComm);
     cout<<"goodbye";
